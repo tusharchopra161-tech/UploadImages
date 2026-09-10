@@ -42,7 +42,7 @@ app.get("/",(req,res)=>{
 })
 // main upload function 
 app.post(
-  "/upload",
+  "https://tusharuploadimages.onrender.com/upload",
   upload.single("profileImage"),
   async (req, res) => {
     try {
