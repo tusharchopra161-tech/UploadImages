@@ -42,9 +42,10 @@ app.get("/",(req,res)=>{
 })
 // main upload function 
 app.post(
-  "https://tusharuploadimages.onrender.com/upload",
+  "/upload",
   upload.single("profileImage"),
   async (req, res) => {
+    console.log("post route")
     try {
       const file = req.file;
 
