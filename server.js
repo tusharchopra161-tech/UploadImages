@@ -11,22 +11,32 @@ const uploadImage = require("./utils/fileUpload");
 const app=express()
 const fs=require('fs')
 const Media=require("./models/mediaModel");
-const storage=multer.diskStorage({
-    destination:(req,file,cb)=>{
-       return cb(null,"./uploadfile")
+if (!fs.existsSync("./uploadfile")) {
+    fs.mkdirSync("./uploadfile", { recursive: true });
+}
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "./uploadfile");
     },
-    filename:(req,file,cb)=>{ 
-        const suffix=Date.now()
-        const baseName=path.basename(file.originalname)
-        const ext=path.extname(file.originalname)
-           return cb(null,`${baseName}-${suffix}${ext}`)
+
+    filename: (req, file, cb) => {
+        const suffix = Date.now();
+        const baseName = path.basename(
+            file.originalname,
+            path.extname(file.originalname)
+        );
+        const ext = path.extname(file.originalname);
+
+        cb(null, `${baseName}-${suffix}${ext}`);
     }
-})
-const upload=multer({storage:storage,
-    limits:{
-        fileSize:100*1024*1024
+});
+
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 100 * 1024 * 1024
     }
-})
+});
 
 
 app.set('view engine','ejs');
